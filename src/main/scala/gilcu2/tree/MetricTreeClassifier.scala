@@ -1,15 +1,21 @@
 package gilcu2.tree
 
+import gilcu2.tree.MetricTreeClassifier._
 import scalism.Metric
 
-sealed trait MetricTreeClassifier[T] {
 
-  def metric: Metric[T]
+case class MetricTreeClassifier[T](alpha: Int, beta: Int, gamma: Double, metric: Metric[T]) {
+
+  def train(points: Vector[T], classes: Vector[Class]): Unit = {}
+
+  def classify(points: Iterable[T]): Classification = Vector[Classes]()
 
 }
 
 object MetricTreeClassifier {
 
-  def apply[T](): MetricTreeClassifier[T] = new MetricTreeClassifier[T]
+  type Class = Int
+  type Classes = Set[Class]
+  type Classification = Vector[Classes]
 
 }
