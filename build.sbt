@@ -2,7 +2,7 @@ import AcceptanceTest._
 import IntegrationTest._
 import UnitTest._
 
-name := "disco-test-phone-company"
+name := "metric-classifier"
 organization := "com.gilcu2"
 
 UnitTestSettings ++ IntegrationTestSettings ++ AcceptanceTestSettings
@@ -29,9 +29,14 @@ libraryDependencies ++= Seq(
   "org.rogach" %% "scallop" % "3.3.1",
   "com.github.nscala-time" %% "nscala-time" % "2.22.0",
 
+  "org.scalanlp" %% "breeze" % "0.13",
+  "org.scalanlp" %% "breeze-natives" % "0.13",
+
   "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 
 )
+
+
 
 mainClass in(Compile, run) := Some("com.phone.PhoneLogsMain")
 
