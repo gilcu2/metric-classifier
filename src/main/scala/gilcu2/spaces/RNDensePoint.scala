@@ -1,6 +1,5 @@
-package gilcu2.points
+package gilcu2.spaces
 
-import scalism.Metric
 import scala.math.sqrt
 
 object RNDensePoint {

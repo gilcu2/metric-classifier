@@ -1,7 +1,6 @@
 package gilcu2.tree
 
 import gilcu2.tree.MetricTreeClassifier._
-import scalism.Metric
 
 
 case class MetricTreeClassifier[T](alpha: Int, beta: Int, gamma: Double, metric: Metric[T]) {

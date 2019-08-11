@@ -1,6 +1,6 @@
 package gilcu2.tree
 
-import gilcu2.points.RNDensePoint
+import gilcu2.spaces.RNDensePoint
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 
 class MetricTreeClassifierTest extends FlatSpec with Matchers with GivenWhenThen {

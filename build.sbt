@@ -38,11 +38,11 @@ libraryDependencies ++= Seq(
 
 
 
-mainClass in(Compile, run) := Some("com.phone.PhoneLogsMain")
+mainClass in(Compile, run) := Some("com.gilcu2.MetricClassifierMain")
 
 test in assembly := {}
 
-assemblyJarName in assembly := "phonelogs.jar"
+assemblyJarName in assembly := "MetricClassifier.jar"
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs@_*) => MergeStrategy.discard
