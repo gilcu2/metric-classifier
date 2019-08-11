@@ -14,6 +14,7 @@ version := "0.1"
 scalaVersion := "2.11.12"
 
 val sparkV = "2.4.3"
+val optimus = "3.2.0"
 
 libraryDependencies ++= Seq(
 
@@ -32,8 +33,11 @@ libraryDependencies ++= Seq(
   "org.scalanlp" %% "breeze" % "0.13",
   "org.scalanlp" %% "breeze-natives" % "0.13",
 
-  "org.scalatest" %% "scalatest" % "3.0.8" % "test"
+  "com.github.vagmcs" %% "optimus" % optimus,
+  "com.github.vagmcs" %% "optimus-solver-oj" % optimus,
+  "com.github.vagmcs" %% "optimus-solver-lp" % optimus,
 
+  "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 )
 
 
