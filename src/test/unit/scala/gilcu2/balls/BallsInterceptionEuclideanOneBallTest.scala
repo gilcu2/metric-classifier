@@ -3,9 +3,11 @@ package gilcu2.balls
 import gilcu2.spaces.{Euclidean, RNDensePoint}
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 
-class BallsInterceptionEuclideanTest extends FlatSpec with Matchers with GivenWhenThen {
+class BallsInterceptionEuclideanOneBallTest extends FlatSpec with Matchers with GivenWhenThen {
 
   behavior of "BallsInterception"
+
+  implicit val metric = Euclidean
 
   it should "return empty ball interception when two balls are no overlapped" in {
 
@@ -14,7 +16,7 @@ class BallsInterceptionEuclideanTest extends FlatSpec with Matchers with GivenWh
     val inter2 = BallsInterception(Ball(RNDensePoint(3.0, 0.0), 1.0))
 
     When("the balls interceptions are intercepted")
-    val r = BallsInterception.intercept(inter1, inter2, Euclidean)
+    val r = BallsInterception.intercept(inter1, inter2)
 
     Then("the result must be empty")
     r shouldBe BallsInterceptionEmpty
@@ -27,7 +29,7 @@ class BallsInterceptionEuclideanTest extends FlatSpec with Matchers with GivenWh
     val inter2 = BallsInterception(Ball(RNDensePoint(0.0, 0.0), 2.0))
 
     When("the balls interceptions are intercepted")
-    val r = BallsInterception.intercept(inter1, inter2, Euclidean)
+    val r = BallsInterception.intercept(inter1, inter2)
 
     Then("the result must be the contained ball")
     r shouldBe inter1
@@ -40,7 +42,7 @@ class BallsInterceptionEuclideanTest extends FlatSpec with Matchers with GivenWh
     val inter2 = BallsInterception(Ball(RNDensePoint(0.0, 0.0), 1.0))
 
     When("the balls interceptions are intercepted")
-    val r = BallsInterception.intercept(inter1, inter2, Euclidean)
+    val r = BallsInterception.intercept(inter1, inter2)
 
     Then("the result must be the contained ball")
     r shouldBe inter2
@@ -55,7 +57,7 @@ class BallsInterceptionEuclideanTest extends FlatSpec with Matchers with GivenWh
     val inter2 = BallsInterception(ball2)
 
     When("the balls interceptions are intercepted")
-    val r = BallsInterception.intercept(inter1, inter2, Euclidean)
+    val r = BallsInterception.intercept(inter1, inter2)
 
     Then("the result must be the two balls")
     r shouldBe BallsInterception.build_without_check_interceptions(ball2, ball1)
