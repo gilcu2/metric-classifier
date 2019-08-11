@@ -1,6 +1,7 @@
-package gilcu2.tree
+package gilcu2.classifier
 
-import gilcu2.tree.MetricTreeClassifier._
+import gilcu2.spaces.Metric
+import gilcu2.classifier.MetricTreeClassifier._
 
 
 case class MetricTreeClassifier[T](alpha: Int, beta: Int, gamma: Double, metric: Metric[T]) {

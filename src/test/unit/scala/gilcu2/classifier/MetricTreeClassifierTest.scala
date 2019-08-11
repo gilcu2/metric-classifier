@@ -1,6 +1,6 @@
-package gilcu2.tree
+package gilcu2.classifier
 
-import gilcu2.spaces.RNDensePoint
+import gilcu2.spaces.{Euclidean, RNDensePoint}
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 
 class MetricTreeClassifierTest extends FlatSpec with Matchers with GivenWhenThen {
@@ -10,18 +10,18 @@ class MetricTreeClassifierTest extends FlatSpec with Matchers with GivenWhenThen
   it should "classify in the class of the nearest point" in {
 
     Given("a tree classifier")
-    val treeCla = MetricTreeClassifier(1, 0, 1.0, RNDensePoint.euclidean)
+    val treeCla = MetricTreeClassifier(1, 0, 1.0, Euclidean)
 
     And("points with their classes")
     val trainPoint = Vector(
-      RNDensePoint(Vector(-1, 0)),
-      RNDensePoint(Vector(1, 0))
+      RNDensePoint(-1.0, 0.0),
+      RNDensePoint(1.0, 0.0)
     )
     val trainClasses = Vector(1, 2)
 
     And("the object to classify and its expected class")
     val testPoints = Vector(
-      RNDensePoint(Vector(0.5, 0))
+      RNDensePoint(0.5, 0.0)
     )
     val expectedClasses = Vector(2)
 
