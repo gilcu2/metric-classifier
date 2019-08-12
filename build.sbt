@@ -36,6 +36,8 @@ libraryDependencies ++= Seq(
   "com.github.vagmcs" %% "optimus" % optimus,
   "com.github.vagmcs" %% "optimus-solver-oj" % optimus,
   "com.github.vagmcs" %% "optimus-solver-lp" % optimus,
+  "com.github.vagmcs" %% "optimus-solver-gurobi" % optimus,
+  "com.github.vagmcs" %% "optimus-solver-mosek" % optimus,
 
   "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 )
