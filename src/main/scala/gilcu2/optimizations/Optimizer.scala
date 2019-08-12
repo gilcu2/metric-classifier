@@ -81,12 +81,12 @@ object Optimizer {
     val xb0 = ball.center.coordinates(0)
     val yb0 = ball.center.coordinates(1)
 
-    implicit val model = MPModel(SolverLib.oJSolver)
+    implicit val model = MPModel(SolverLib.Mosek)
 
     val x = MPFloatVar("x", 0, 2)
     val y = MPFloatVar("y", -1, 1)
 
-    minimize(x * x - 4 * x + 4 + y * y)
+    minimize((x - xp0) * (x - yp0) + y * y)
     subjectTo(
       x * x + y * y <:= 1.0
     )
