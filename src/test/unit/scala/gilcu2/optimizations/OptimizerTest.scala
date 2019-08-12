@@ -30,21 +30,6 @@ class OptimizerTest extends FlatSpec with Matchers with GivenWhenThen {
   //    min shouldBe <(0)
   //  }
 
-  it should "find the minimum distance from point to circumference" in {
-
-    Given("the circumference and point")
-    val circumference = Ball(RNDensePoint(0.0, 0.0), radio = 1.0)
-    val point = RNDensePoint(2.0, 0.0)
-
-    When("the minimum distance is computed")
-    val (xmin, ymin, dmin) = Optimizer.minimizeDistancesFromPointToBallR2(point, circumference)
-
-    Then("the values must be the expected")
-    abs(xmin - 1.0) should be < 0.00001
-    abs(ymin) should be < 0.00001
-    abs(dmin - 1.0) should be < 0.00001
-
-  }
 
   //  it should "compute gurobi example" in {
   //    implicit val cp: MPModel = MPModel(SolverLib.Gurobi)

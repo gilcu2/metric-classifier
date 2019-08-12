@@ -81,14 +81,54 @@ object Optimizer {
     val xb0 = ball.center.coordinates(0)
     val yb0 = ball.center.coordinates(1)
 
+    val minX = math.min(xp0, xb0) - ball.radio
+    val maxX = math.max(xp0, xb0) + ball.radio
+
+    val minY = math.min(yp0, yb0) - ball.radio
+    val maxY = math.max(yp0, yb0) + ball.radio
+
     implicit val model = MPModel(SolverLib.Mosek)
 
-    val x = MPFloatVar("x", 0, 2)
-    val y = MPFloatVar("y", -1, 1)
+    val x = MPFloatVar("x", minX, maxX)
+    val y = MPFloatVar("y", minY, maxY)
 
-    minimize((x - xp0) * (x - yp0) + y * y)
+    minimize((x - xp0) * (x - xp0) + (y - yp0) * (y - yp0))
     subjectTo(
-      x * x + y * y <:= 1.0
+      (x - xb0) * (x - xb0) + (y - yb0) * (y - yb0) <:= ball.radio
+    )
+
+    start()
+
+    val r = (x.value.get, y.value.get, objectiveValue)
+
+    release()
+
+    r
+  }
+
+  def maximizeDistancesFromPointToBallR2(point: RNDensePoint, ball: Ball[RNDensePoint],
+                                         solver: SolverLib = SolverLib.Mosek): (Double, Double, Double) = {
+
+    val xp0 = point.coordinates(0)
+    val yp0 = point.coordinates(1)
+
+    val xb0 = ball.center.coordinates(0)
+    val yb0 = ball.center.coordinates(1)
+
+    val minX = math.min(xp0, xb0) - ball.radio
+    val maxX = math.max(xp0, xb0) + ball.radio
+
+    val minY = math.min(yp0, yb0) - ball.radio
+    val maxY = math.max(yp0, yb0) + ball.radio
+
+    implicit val model = MPModel(solver)
+
+    val x = MPFloatVar("x", minX, maxX)
+    val y = MPFloatVar("y", minY, maxY)
+
+    maximize((x - xp0) * (x - xp0) + (y - yp0) * (y - yp0))
+    subjectTo(
+      (x - xb0) * (x - xb0) + (y - yb0) * (y - yb0) <:= ball.radio
     )
 
     start()
