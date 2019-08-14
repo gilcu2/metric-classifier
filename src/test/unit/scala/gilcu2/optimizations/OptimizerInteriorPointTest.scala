@@ -8,19 +8,19 @@ import optimus.optimization.enums.SolverLib
 import optimus.optimization.model.MPFloatVar
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 
-class OptimizerTest extends FlatSpec with Matchers with GivenWhenThen {
+class OptimizerInteriorPointTest extends FlatSpec with Matchers with GivenWhenThen {
 
   behavior of "Optimizer"
 
   it should "find the maximun value of linear problem" in {
 
-    val (x, y, max) = Optimizer.maximizeLinearR2(100, 200, 80, 170)
+    val (x, y, max) = OptimizerInteriorPoint.maximizeLinearR2(100, 200, 80, 170)
     max shouldBe 650
   }
 
   it should "find the minimum value of quadratic problem with linear constraint" in {
 
-    val (x, y, min) = Optimizer.minimizeQuadraticR2LinearConstraints(0, 0, 0, 0)
+    val (x, y, min) = OptimizerInteriorPoint.minimizeQuadraticR2LinearConstraints(0, 0, 0, 0)
     min shouldBe -31
   }
 

@@ -6,7 +6,7 @@ import optimus.optimization._
 import optimus.optimization.enums.SolverLib
 import optimus.optimization.model.MPFloatVar
 
-object Optimizer {
+object OptimizerInteriorPoint {
 
   def maximizeLinearR2(xMin: Double, xMax: Double, yMin: Double, yMax: Double): (Double, Double, Double) = {
 

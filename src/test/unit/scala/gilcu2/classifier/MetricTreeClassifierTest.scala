@@ -7,7 +7,7 @@ class MetricTreeClassifierTest extends FlatSpec with Matchers with GivenWhenThen
 
   behavior of "MetricTreeClassifier"
 
-  it should "classify in the class of the nearest point" in {
+  ignore should "classify in the class of the nearest point" in {
 
     Given("a tree classifier")
     val treeCla = MetricTreeClassifier(1, 0, 1.0, Euclidean)

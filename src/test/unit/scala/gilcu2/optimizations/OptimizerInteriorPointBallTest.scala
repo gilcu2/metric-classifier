@@ -5,7 +5,7 @@ import gilcu2.spaces.RNDensePoint
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 import optimus.optimization.enums.SolverLib
 
-class OptimizerBallTest extends FlatSpec with Matchers with GivenWhenThen {
+class OptimizerInteriorPointBallTest extends FlatSpec with Matchers with GivenWhenThen {
 
   behavior of "Optimizer"
 
@@ -23,7 +23,7 @@ class OptimizerBallTest extends FlatSpec with Matchers with GivenWhenThen {
     val dExpected = 1.0
 
     When("the minimum distance is computed")
-    val (xmin, ymin, dmin) = Optimizer.minimizeDistancesFromPointToBallR2(point, circumference)
+    val (xmin, ymin, dmin) = OptimizerInteriorPoint.minimizeDistancesFromPointToBallR2(point, circumference)
 
     Then("the values must be the expected")
     xmin shouldBe xExpected +- epsilon
@@ -32,7 +32,7 @@ class OptimizerBallTest extends FlatSpec with Matchers with GivenWhenThen {
 
   }
 
-  it should "find the maximum distance from point to circumference" in {
+  ignore should "find the maximum distance from point to circumference using gurobi" in {
 
     Given("the circumference and point")
     val circumference = Ball(RNDensePoint(0.0, 0.0), radio = 1.0)
@@ -44,7 +44,7 @@ class OptimizerBallTest extends FlatSpec with Matchers with GivenWhenThen {
     val dExpected = 3.0
 
     When("the minimum distance is computed")
-    val (xmin, ymin, dmax) = Optimizer.maximizeDistancesFromPointToBallR2(point, circumference,
+    val (xmin, ymin, dmax) = OptimizerInteriorPoint.maximizeDistancesFromPointToBallR2(point, circumference,
       solver = SolverLib.Gurobi)
 
     Then("the values must be the expected")
