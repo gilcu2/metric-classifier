@@ -19,8 +19,16 @@ object RNDensePoint {
 
 class RNDensePoint(val coordinates: Vector[Double]) {
 
+  def +(other: RNDensePoint): RNDensePoint =
+    new RNDensePoint(this.coordinates.zip(other.coordinates).map { case (c1, c2) => c1 + c2 })
+
   def -(other: RNDensePoint): RNDensePoint =
     new RNDensePoint(this.coordinates.zip(other.coordinates).map { case (c1, c2) => c1 - c2 })
+
+  def *(scalar: Double): RNDensePoint =
+    new RNDensePoint(this.coordinates.map(scalar * _))
+
+  def unary_- : RNDensePoint = RNDensePoint(this.coordinates.map(-_))
 
   def norm: Double = sqrt(this.coordinates.map(c => c * c).sum)
 
