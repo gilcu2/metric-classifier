@@ -13,7 +13,7 @@ class OptimizerFunctionTwoPointsWithConstraintsTest extends FlatSpec with Matche
 
   def sqr(x: Double): Double = x * x
 
-  it should "find the minimum distance between to balls, initials in line with solution" in {
+  ignore should "find the minimum distance between to balls, initials in line with solution" in {
 
     Given("the function,restriction, jacobians and balls")
 
@@ -58,7 +58,7 @@ class OptimizerFunctionTwoPointsWithConstraintsTest extends FlatSpec with Matche
     r.fValue shouldBe 1.0 +- epsilon
   }
 
-  ignore should "find the minimum distance between to balls, initials not in line with solution" in {
+  it should "find the minimum distance between to balls, initials not in line with solution" in {
 
     Given("the function,restriction, jacobians and balls")
 

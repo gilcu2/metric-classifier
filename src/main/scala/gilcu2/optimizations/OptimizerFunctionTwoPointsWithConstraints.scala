@@ -23,22 +23,18 @@ object OptimizerFunctionTwoPointsWithConstraints {
               )(initialX1: RNDensePoint, initialX2: RNDensePoint, initialDelta: Double)(
                 implicit epsilon: Double): Result = {
     var cond = true
-    var rPrevious = optimizeOneDirection(f, gradFX1, gradFX2, constraintsX1, constraintsX2)(
+    var rPrevious = findFirstGoodDeltaOneDirection(f, gradFX1, gradFX2, constraintsX1, constraintsX2)(
       initialX1, initialX2, initialDelta)
     var rNew = rPrevious.copy()
 
     while (cond) {
-      val newX1 = getNewXOtherDirection(constraintsX1, rPrevious.lastDelta, rPrevious.x1)
-      rNew = if ((newX1 - rPrevious.x1).norm > epsilon)
-        optimizeOneDirection(f, gradFX1, gradFX2, constraintsX1, constraintsX2)(
-          newX1, initialX2, initialDelta)
-      else rNew
+      val newX1 = getNewXOtherDirection(constraintsX1, rNew.lastDelta, rNew.x1)
+      rNew = optimizeOneDirection(f, gradFX1, gradFX2, constraintsX1, constraintsX2)(
+        newX1, rNew.x2, rNew.lastDelta)
 
       val newX2 = getNewXOtherDirection(constraintsX2, rNew.lastDelta, rNew.x2)
-      rNew = if ((newX1 - rPrevious.x1).norm > epsilon)
-        optimizeOneDirection(f, gradFX1, gradFX2, constraintsX1, constraintsX2)(
-          newX1, initialX2, initialDelta)
-      else rNew
+      rNew = optimizeOneDirection(f, gradFX1, gradFX2, constraintsX1, constraintsX2)(
+        rNew.x1, newX2, rNew.lastDelta)
 
       if (rNew.fValue < rPrevious.fValue) {
         rPrevious = rNew
@@ -94,17 +90,10 @@ object OptimizerFunctionTwoPointsWithConstraints {
     Result(prevX1, prevX2, prevF, delta)
   }
 
-  private def areNewPointsDifferent(prevX1: RNDensePoint, prevX2: RNDensePoint,
-                                    newX1: RNDensePoint, newX2: RNDensePoint): Boolean
-
-  =
-    (newX1 - prevX1).norm > 0.0 || (newX2 - prevX2).norm > 0.0
-
   private def getNewX2InLine(gradFX2: (RNDensePoint, RNDensePoint) => RNDensePoint,
                              constraintsX2: Vector[Constraint], delta: Double,
-                             prevX1: RNDensePoint, prevX2: RNDensePoint): (RNDensePoint, Boolean)
-
-  = {
+                             prevX1: RNDensePoint, prevX2: RNDensePoint):
+  (RNDensePoint, Boolean) = {
     val gradFX2Value = gradFX2(prevX1, prevX2)
     val newX2Try = prevX2 - gradFX2Value * delta
     if (isInsideRegion(constraintsX2, newX2Try))
@@ -116,9 +105,7 @@ object OptimizerFunctionTwoPointsWithConstraints {
   private def getNewX1InLine(gradFX1: (RNDensePoint, RNDensePoint) => RNDensePoint,
                              constraintsX1: Vector[Constraint],
                              delta: Double, prevX1: RNDensePoint, prevX2: RNDensePoint)
-  : (RNDensePoint, Boolean)
-
-  = {
+  : (RNDensePoint, Boolean) = {
     val gradFX1Value = gradFX1(prevX1, prevX2)
 
     val newX1Try = prevX1 - gradFX1Value * delta
@@ -149,5 +136,46 @@ object OptimizerFunctionTwoPointsWithConstraints {
       prevX
 
   }
+
+  def findFirstGoodDeltaOneDirection(f: (RNDensePoint, RNDensePoint) => Double,
+                                     gradFX1: (RNDensePoint, RNDensePoint) => RNDensePoint,
+                                     gradFX2: (RNDensePoint, RNDensePoint) => RNDensePoint,
+                                     constraintsX1: Vector[Constraint],
+                                     constraintsX2: Vector[Constraint])(
+                                      initialX1: RNDensePoint, initialX2: RNDensePoint,
+                                      initialDelta: Double
+                                    )(implicit epsilon: Double): Result = {
+    var delta = initialDelta
+    var prevX1 = initialX1
+    var prevX2 = initialX2
+    var prevF = f(prevX1, prevX2)
+    var cond = true
+
+    while (cond) {
+      val (newX1, insideX1) = getNewX1InLine(gradFX1, constraintsX1, delta, prevX1, prevX2)
+      val (newX2, insideX2) = getNewX2InLine(gradFX2, constraintsX2, delta, prevX1, prevX2)
+      if (insideX1 || insideX2) {
+        cond = false
+
+        val newF = f(newX1, newX2)
+        if (prevF > newF) {
+          prevX1 = newX1
+          prevX2 = newX2
+          prevF = newF
+        }
+      } else if (delta > epsilon)
+        delta /= 2
+      else
+        cond = false
+    }
+
+    Result(prevX1, prevX2, prevF, delta)
+  }
+
+  private def areNewPointsDifferent(prevX1: RNDensePoint, prevX2: RNDensePoint,
+                                    newX1: RNDensePoint, newX2: RNDensePoint): Boolean
+
+  =
+    (newX1 - prevX1).norm > 0.0 || (newX2 - prevX2).norm > 0.0
 
 }
