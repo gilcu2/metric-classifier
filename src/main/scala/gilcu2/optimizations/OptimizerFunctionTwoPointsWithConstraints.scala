@@ -29,14 +29,14 @@ object OptimizerFunctionTwoPointsWithConstraints {
     while (cond) {
       val gradFX1Value = gradFX1(prevX1, prevX2)
 
-      val newX1Try = prevX1 + gradFX1Value * delta
+      val newX1Try = prevX1 - gradFX1Value * delta
       val newX1 = if (constraintsX1.forall(_.satisfy(newX1Try)))
         newX1Try
       else
         prevX1
 
       val gradFX2Value = gradFX2(prevX1, prevX2)
-      val newX2Try = prevX2 + gradFX2Value * delta
+      val newX2Try = prevX2 - gradFX2Value * delta
       val newX2 = if (constraintsX2.forall(_.satisfy(newX2Try)))
         newX2Try
       else

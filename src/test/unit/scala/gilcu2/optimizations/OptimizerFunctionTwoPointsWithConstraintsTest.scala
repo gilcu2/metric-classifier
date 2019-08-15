@@ -1,9 +1,9 @@
 package gilcu2.optimizations
 
 import gilcu2.balls.Ball
-import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 import gilcu2.optimizations.OptimizerFunctionTwoPointsWithConstraints._
 import gilcu2.spaces.RNDensePoint
+import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 
 class OptimizerFunctionTwoPointsWithConstraintsTest extends FlatSpec with Matchers with GivenWhenThen {
 
@@ -53,9 +53,9 @@ class OptimizerFunctionTwoPointsWithConstraintsTest extends FlatSpec with Matche
       Vector(constraintBall1), Vector(constraintBall2))(initialX1, initialX2, initialDelta)
 
     Then("results must be the expected")
-    r.x1 shouldBe RNDensePoint(1.0, 0.0)
-    r.x2 shouldBe RNDensePoint(2.0, 0.0)
-    r.fValue shouldBe 1.0
+    (r.x1 - RNDensePoint(1.0, 0.0)).norm should be < epsilon
+    (r.x2 - RNDensePoint(2.0, 0.0)).norm should be < epsilon
+    r.fValue shouldBe 1.0 +- epsilon
   }
 
 }
